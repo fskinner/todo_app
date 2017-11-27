@@ -3,7 +3,7 @@ defmodule TodoApp.Todo do
 
   schema "todos" do
     field :description, :string
-    field :complete, :boolean
+    field :complete, :boolean, default: false
 
     timestamps()
   end
@@ -13,7 +13,8 @@ defmodule TodoApp.Todo do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:description])
-    |> validate_required([:description])
+    |> cast(params, [:description, :complete])
+    |> validate_required([:description, :complete])
+    |> validate_length(:description, min: 2, max: 60)
   end
 end
