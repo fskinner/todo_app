@@ -18,7 +18,8 @@ defmodule TodoApp.TodoControllerTest do
     todo = Repo.insert! %Todo{}
     conn = get conn, todo_path(conn, :show, todo)
     assert json_response(conn, 200)["data"] == %{"id" => todo.id,
-      "description" => todo.description}
+      "description" => todo.description,
+      "complete" => todo.complete}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
