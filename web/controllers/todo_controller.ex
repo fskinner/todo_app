@@ -7,9 +7,7 @@ defmodule TodoApp.TodoController do
     page = Todo |> Repo.paginate(params)
     
     conn
-    |> put_status(:ok)
-    |> put_resp_header("x-count", Integer.to_string(page.total_entries))
-    |> put_resp_header("link", "#{TodoApp.Endpoint.url}/api/todos?page=#{page.page_number+1}")
+    |> Scrivener.Headers.paginate(page)
     |> render("index.json", todos: page.entries)
   end
 
