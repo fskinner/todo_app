@@ -3,9 +3,14 @@ defmodule TodoApp.TodoController do
 
   alias TodoApp.Todo
 
-  def index(conn, _params) do
-    todos = Repo.all(Todo)
-    render(conn, "index.json", todos: todos)
+  def index(conn, params) do
+    page = Todo |> Repo.paginate(params)
+    
+    conn
+    |> put_status(:ok)
+    |> put_resp_header("x-count", Integer.to_string(page.total_entries))
+    |> put_resp_header("link", "#{TodoApp.Endpoint.url}/api/todos?page=#{page.page_number+1}")
+    |> render("index.json", todos: page.entries)
   end
 
   def create(conn, %{"todo" => todo_params}) do

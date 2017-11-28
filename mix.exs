@@ -20,7 +20,7 @@ defmodule TodoApp.Mixfile do
   def application do
     [
       mod: {TodoApp, []},
-      extra_applications: [:logger]
+      extra_applications: [:logger, :scrivener_ecto]
     ]
   end
 
@@ -38,7 +38,8 @@ defmodule TodoApp.Mixfile do
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:scrivener_ecto, "~> 1.0"}
     ]
   end
 
