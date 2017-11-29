@@ -40,7 +40,8 @@ defmodule TodoApp.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:scrivener_ecto, "~> 1.0"},
-      {:scrivener_headers, "~> 3.1"}
+      {:scrivener_headers, "~> 3.1"},
+      {:cors_plug, "~> 1.2"}
     ]
   end
 

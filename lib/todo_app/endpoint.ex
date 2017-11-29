@@ -36,5 +36,6 @@ defmodule TodoApp.Endpoint do
     key: "_todo_app_key",
     signing_salt: "wE0i0wJA"
 
+  plug CORSPlug
   plug TodoApp.Router
 end
