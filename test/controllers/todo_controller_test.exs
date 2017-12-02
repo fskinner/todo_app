@@ -2,7 +2,12 @@ defmodule TodoApp.TodoControllerTest do
   use TodoApp.ConnCase
 
   alias TodoApp.Todo
+
+  @moduletag :controllers_test
+
   @valid_attrs %{description: "some description"}
+  @long_attrs %{description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+  @short_attrs %{description: "a"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -32,6 +37,16 @@ defmodule TodoApp.TodoControllerTest do
     conn = post conn, todo_path(conn, :create), todo: @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Todo, @valid_attrs)
+  end
+
+  test "does not create resource and renders errors when description is too long", %{conn: conn} do
+    conn = post conn, todo_path(conn, :create), todo: @long_attrs
+    assert json_response(conn, 422)["errors"] == %{"description" => ["should be at most 60 character(s)"]}
+  end
+
+  test "does not create resource and renders errors when data is too short", %{conn: conn} do
+    conn = post conn, todo_path(conn, :create), todo: @short_attrs
+    assert json_response(conn, 422)["errors"] == %{"description" => ["should be at least 2 character(s)"]}
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
